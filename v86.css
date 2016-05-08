@@ -1,0 +1,97 @@
+#log, #runtime_infos, #serial, #filesystem_panel {
+    font-family: DejaVu Sans Mono, monospace;
+    font-size: 13px;
+    border: 1px solid #333;
+    background-color: #000;
+    padding: 4px;
+    color: #fff;
+}
+#runtime_infos, #filesystem_panel {
+    float: left;
+    width: 250px;
+    margin-bottom: 7px;
+    margin-right: 7px;
+    padding-bottom: 7px;
+}
+#log {
+    height: 100px;
+    width: 550px;
+}
+#serial {
+    margin: 0px;
+}
+#serial:focus {
+    outline: 1px solid rgb(229, 151, 0);
+}
+#screen {
+    white-space: pre;
+    position: relative;
+    font-family: Liberation Mono, DejaVu Sans Mono, Courier New, monospace;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: normal;
+}
+#screen, #vga {
+    border: 1px solid #555;
+    border-width: 2px 1px;
+    display: none;
+    -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+}
+#vga {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+
+    image-rendering: -o-crisp-edges;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+
+    background-color: #000;
+}
+body {
+    background-color: #111;
+    color: #fff;
+    line-height: 1.5;
+    padding: 10px;
+    font-family: sans-serif;
+}
+a {
+    color: wheat;
+}
+.phone_keyboard {
+    width: 0;
+    height: 0;
+    resize: none;
+    border: 0;
+    padding: 0;
+}
+h4 {
+    margin: 0px 0px 20px 0px;
+}
+#start_emulation {
+    padding: 6px 18px;
+    font-size: 16px;
+    font-weight: bold;
+}
+#setup_error {
+    color: red;
+    font-weight: bold;
+    background-color: #222;
+    padding: 8px 18px;
+}
+#config_link {
+    font-weight: bold;
+    background-color: #222;
+    padding: 8px 18px;
+}
+#screen_container {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+a img {
+    margin: 10px;
+}
+.screenshots a {
+    text-decoration: none;
+}
