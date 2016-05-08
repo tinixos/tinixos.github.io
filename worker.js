@@ -51,18 +51,6 @@ function time2str(time)
     }
 }
 
-function chr_repeat(chr, count)
-{
-    var result = "";
-
-    while(count-- > 0)
-    {
-        result += chr;
-    }
-
-    return result;
-}
-
 var progress_ticks = 0;
 
 function show_progress(e)
@@ -73,11 +61,11 @@ function show_progress(e)
     if(e.sh === e.rh - 1 && e.loaded >= e.total - 2048)
     {
         // last file is (almost) loaded
-        el.innerHTML = "Done downloading. Starting now ...";
+        el.innerHTML = "Download completed.";
         return;
     }
 
-    var line = "Downloading images ";
+    var line = "Downloading images " + e.th;
 
     if(typeof e.sh === "number" && e.rh)
     {
@@ -91,9 +79,7 @@ function show_progress(e)
 
         var per50 = Math.floor(per100 / 2);
 
-        line += per100 + "% [";
-        line += chr_repeat("#", per50);
-        line += chr_repeat(" ", 50 - per50) + "]";
+        line += per100 + "%";
     }
     else
     {
@@ -255,6 +241,21 @@ function init_ui(emulator)
         ]);
 
         $("ctrlaltdel").blur();
+    };
+
+    var showstatus = "none";
+    $("showstatus").onclick = function()
+    {
+        if (showstatus == "none") 
+        {
+            showstatus = "block";
+            $("runtime_infos").style.display = "block";
+        }
+        else
+        {
+            showstatus = "none";
+            $("runtime_infos").style.display = "none";
+        }
     };
 
     $("screen_container").onclick = function()

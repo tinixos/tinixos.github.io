@@ -4,6 +4,8 @@
 <title>Tinix OS - Virtual x86</title>
 <script type="text/javascript" src="build/libv86.js"></script>
 <script type="text/javascript" src="worker.js"></script>
+
+
 <link rel="stylesheet" href="v86.css">
 
 
@@ -11,6 +13,7 @@
     <input type="button" value="Pause" id="run">
     <input type="button" value="Reset" id="reset">
     <input type="button" value="Ctrl-Alt-Del" id="ctrlaltdel">
+    <input type="button" value="Runtime Info" id="showstatus">
     <span id="status"></span>
 </div>
 
@@ -21,7 +24,7 @@
     <canvas id="vga"></canvas>
 </div>
 
-<div id="runtime_infos" style="display: block;">
+<div id="runtime_infos" style="display: none;">
     <div id="info_cpu">
         <b>CPU</b><br>
         Running: <span id="running_time">0s</span> <br>
@@ -55,8 +58,10 @@
 
 <br style="clear:both">
 <hr>
-<a href="https://github.com/tinixos/tinixos.github.io">Tinix on Github</a>
+<a href="debug.html">Tinix on Github</a>
 &mdash;
 <a href="https://github.com/copy/v86">Virtual x86 on Github</a>
 &mdash;
 <a href="">About</a>
+
+
