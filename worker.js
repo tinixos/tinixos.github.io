@@ -1,6 +1,16 @@
 "use strict";
 
 var emulator;
+var 
+/** @const */ reg_eax = 0,
+/** @const */ reg_ecx = 1,
+/** @const */ reg_edx = 2,
+/** @const */ reg_ebx = 3,
+/** @const */ reg_esp = 4,
+/** @const */ reg_ebp = 5,
+/** @const */ reg_esi = 6,
+/** @const */ reg_edi = 7;
+
 
 window.onload = function()
 {
@@ -58,7 +68,7 @@ function show_progress(e)
     var el = $("status");
     //el.style.display = "block";
 
-    if(e.sh === e.rh - 1 && e.loaded >= e.total - 2048)
+    if(e.th === e.sh - 1 && e.loaded >= e.total - 2048)
     {
         // last file is (almost) loaded
         el.innerHTML = "Download completed.";
@@ -67,9 +77,9 @@ function show_progress(e)
 
     var line = "Downloading images " + e.th;
 
-    if(typeof e.sh === "number" && e.rh)
+    if(typeof e.th === "number" && e.sh)
     {
-        line += "[" + (e.sh + 1) + "/" + e.rh + "] ";
+        line += "[" + (e.th + 1) + "/" + e.sh + "] ";
     }
 
     if(e.total && typeof e.loaded === "number")
@@ -92,23 +102,10 @@ function show_progress(e)
 function init_ui(emulator)
 {
 
-    $("run").onclick = function()
-    {
-        if(emulator.is_running())
-        {
-            $("run").value = "Resume";
-            emulator.stop();
-        }
-        else
-        {
-            $("run").value = "Pause";
-            emulator.run();
-        }
-
-        $("run").blur();
-    };
-
-
+    function toHex(num)
+    {//将一个数字转化成16进制字符串形式
+        return num<16?"0x0"+num.toString(16).toUpperCase():"0x"+num.toString(16).toUpperCase();
+    }
     var last_tick = 0;
     var running_time = 0;
     var last_instr_counter = 0;
@@ -118,7 +115,8 @@ function init_ui(emulator)
     {
         var now = Date.now();
 
-        var instruction_counter = 0;//emulator.get_instruction_counter();
+        //time
+        var instruction_counter = emulator.get_instruction_counter();
         var last_ips = instruction_counter - last_instr_counter;
 
         last_instr_counter = instruction_counter;
@@ -128,14 +126,33 @@ function init_ui(emulator)
         last_tick = now;
 
         $("speed").textContent = last_ips / delta_time | 0;
-        $("avg_speed").textContent = instruction_counter / running_time | 0;
         $("running_time").textContent = time2str(running_time / 1000 | 0);
+
+        //register
+        $("eip").textContent = emulator.get_statistics()["eip"];
+        $("cpl").textContent = emulator.get_statistics()["cpl"] == 0 ? "kernel" : "user";
+        $("eflags").textContent = emulator.get_statistics()["flags"];
+        $("paging").textContent = emulator.get_statistics()["paging"] ? "true" : "false";
+        $("protect").textContent = emulator.get_statistics()["protected_mode"] ? "true" : "false";
+
+        var registers = emulator.get_statistics()["registers"];
+
+        $("eax").textContent = registers[reg_eax];
+        $("ebx").textContent = registers[reg_ebx];
+        $("ecx").textContent = registers[reg_ecx];
+        $("edx").textContent = registers[reg_edx];
+        $("esp").textContent = registers[reg_esp];
+        $("ebp").textContent = registers[reg_ebp];
+        $("esi").textContent = registers[reg_esi];
+        $("edi").textContent = registers[reg_edi];
+
+
     }
 
     emulator.add_listener("emulator-started", function()
     {
         last_tick = Date.now();
-        interval = setInterval(update_info, 1000);
+        interval = setInterval(update_info, 100);
     });
 
     emulator.add_listener("emulator-stopped", function()
@@ -149,58 +166,6 @@ function init_ui(emulator)
         write: 0,
     };
 
-    emulator.add_listener("9p-read-start", function()
-    {
-        $("info_filesystem").style.display = "block";
-        $("info_filesystem_status").textContent = "Loading ...";
-    });
-    emulator.add_listener("9p-read-end", function(args)
-    {
-        stats_9p.read += args[1];
-
-        $("info_filesystem_status").textContent = "Idle";
-        $("info_filesystem_last_file").textContent = args[0]
-        $("info_filesystem_bytes_read").textContent = stats_9p.read;
-    });
-    emulator.add_listener("9p-write-end", function(args)
-    {
-        stats_9p.write += args[1];
-
-        $("info_filesystem_last_file").textContent = args[0]
-        $("info_filesystem_bytes_written").textContent = stats_9p.write;
-    });
-
-    var stats_storage = {
-        read: 0,
-        read_sectors: 0,
-        write: 0,
-        write_sectors: 0,
-    };
-
-    emulator.add_listener("ide-read-start", function()
-    {
-        $("info_storage").style.display = "block";
-        $("info_storage_status").textContent = "Loading ...";
-    });
-    emulator.add_listener("ide-read-end", function(args)
-    {
-        stats_storage.read += args[1];
-        stats_storage.read_sectors += args[2];
-
-        $("info_storage_status").textContent = "Idle";
-        $("info_storage_bytes_read").textContent = stats_storage.read;
-        $("info_storage_sectors_read").textContent = stats_storage.read_sectors;
-    });
-    emulator.add_listener("ide-write-end", function(args)
-    {
-        stats_storage.write += args[1];
-        stats_storage.write_sectors += args[2];
-
-        $("info_storage_bytes_written").textContent = stats_storage.write;
-        $("info_storage_sectors_written").textContent = stats_storage.write_sectors;
-    });
-
-
     emulator.add_listener("screen-set-mode", function(is_graphical)
     {
         if(is_graphical)
@@ -210,16 +175,26 @@ function init_ui(emulator)
         else
         {
             $("info_vga_mode").textContent = "Text";
-            $("info_res").textContent = "-";
-            $("info_bpp").textContent = "-";
         }
     });
 
-    emulator.add_listener("screen-set-size-graphical", function(args)
+
+    $("run").onclick = function()
     {
-        $("info_res").textContent = args[0] + "x" + args[1];
-        $("info_bpp").textContent = args[2];
-    });
+        if(emulator.is_running())
+        {
+            $("run").value = "Resume";
+            emulator.stop();
+        }
+        else
+        {
+            $("run").value = "Pause";
+            emulator.run();
+        }
+
+        update_info();
+        $("run").blur();
+    };
 
     $("reset").onclick = function()
     {

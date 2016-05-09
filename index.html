@@ -25,35 +25,31 @@
     <canvas id="vga"></canvas>
 </div>
 
-<div id="runtime_infos" style="display: none;">
+<div id="runtime_infos" style="display: block;">
     <div id="info_cpu">
         <b>CPU</b><br>
-        Running: <span id="running_time">0s</span> <br>
-        Speed: <span id="speed">0</span>kIPS<br>
-        Avg speed: <span id="avg_speed">0</span>kIPS<br>
+        Running:   <span id="running_time">0s</span> <br>
+        Speed(kIPS): <span id="speed">0</span><br>
+        Protect:   <span id="protect">false</span><br>
+        Paging:    <span id="paging">false</span><br>
+        Privilege: <span id="cpl">false</span><br>
         <br>
-    </div>
-    <div id="info_storage">
-        <b>IDE device (HDA or CDROM)</b><br>
-        Sectors read: <span id="info_storage_sectors_read">0</span><br>
-        Bytes read: <span id="info_storage_bytes_read">0</span><br>
-        Sectors written: <span id="info_storage_sectors_written">0</span><br>
-        Bytes written: <span id="info_storage_bytes_written">0</span><br>
-        Status: <span id="info_storage_status"></span><br>
+        <b>Registers</b><br>
+        <font color="#FFFF00">eip: <span id="eip">-</span></font> <br>
+        eflags: <span id="eflags">-</span> <br>
         <br>
-    </div>
-    <div id="info_filesystem">
-        <b>9p Filesystem</b><br>
-        Bytes read: <span id="info_filesystem_bytes_read">0</span><br>
-        Bytes written: <span id="info_filesystem_bytes_written">0</span><br>
-        Last file: <span id="info_filesystem_last_file" style="word-wrap: break-word"></span><br>
-        Status: <span id="info_filesystem_status"></span><br>
+        eax: <span id="eax">-</span> <br>
+        ebx: <span id="ebx">-</span> <br>
+        ecx: <span id="ecx">-</span> <br>
+        edx: <span id="edx">-</span> <br>
+        esi: <span id="esi">-</span> <br>
+        edi: <span id="edi">-</span> <br>
+        ebp: <span id="ebp">-</span> <br>
+        esp: <span id="esp">-</span> <br>
         <br>
     </div>
     <b>VGA</b><br>
     Mode: <span id="info_vga_mode"></span><br>
-    Resolution: <span id="info_res">-</span><br>
-    BPP: <span id="info_bpp">-</span><br>
     <!-- Keyboard: <span id="info_keyboard_enabled">-</span><br> -->
 </div>
 
@@ -62,7 +58,9 @@
 
 <br style="clear:both">
 <hr>
-<a href="debug.html">Tinix on Github</a>
+<a href="https://github.com/tinixos/tinixos.github.io">Project on Github</a>
+&mdash;
+<a href="https://github.com/tinixos/tinixos.github.io">TinixOS kernel on Github</a>
 &mdash;
 <a href="https://github.com/copy/v86">Virtual x86 on Github</a>
 &mdash;
