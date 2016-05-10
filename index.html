@@ -10,47 +10,54 @@
 <link rel="stylesheet" href="v86.css">
 
 
+<body> 
 <div id="runtime_options">
     <input type="button" value="Pause" id="run">
     <input type="button" value="Reset" id="reset">
     <input type="button" value="Ctrl-Alt-Del" id="ctrlaltdel">
     <input type="button" value="Runtime Info" id="showstatus">
-    <span id="status"></span>
 </div>
 
 <hr>
-
-<div id="screen_container">
-    <div id="screen"></div>
-    <canvas id="vga"></canvas>
+<div id="process" name="process" style="display:block" align="center">
+    Loading:  <span id="image_name">-</span> <br>
+    Size(bytes):  <span id="image_size">-</span><br>
+    Process:  <span id="load_process">-</span>
 </div>
 
-<div id="runtime_infos" style="display: block;">
-    <div id="info_cpu">
-        <b>CPU</b><br>
-        Running:   <span id="running_time">0s</span> <br>
-        Speed(kIPS): <span id="speed">0</span><br>
-        Protect:   <span id="protect">false</span><br>
-        Paging:    <span id="paging">false</span><br>
-        Privilege: <span id="cpl">false</span><br>
-        <br>
-        <b>Registers</b><br>
-        <font color="#FFFF00">eip: <span id="eip">-</span></font> <br>
-        eflags: <span id="eflags">-</span> <br>
-        <br>
-        eax: <span id="eax">-</span> <br>
-        ebx: <span id="ebx">-</span> <br>
-        ecx: <span id="ecx">-</span> <br>
-        edx: <span id="edx">-</span> <br>
-        esi: <span id="esi">-</span> <br>
-        edi: <span id="edi">-</span> <br>
-        ebp: <span id="ebp">-</span> <br>
-        esp: <span id="esp">-</span> <br>
-        <br>
+<div id="main">
+    <div id="screen_container">
+        <div id="screen"></div>
+        <canvas id="vga"></canvas>
     </div>
-    <b>VGA</b><br>
-    Mode: <span id="info_vga_mode"></span><br>
-    <!-- Keyboard: <span id="info_keyboard_enabled">-</span><br> -->
+
+    <div id="runtime_infos" style="display: block;">
+        <div id="info_cpu">
+            <b>CPU</b><br>
+            Running:   <span id="running_time">0s</span> <br>
+            Speed(kIPS): <span id="speed">0</span><br>
+            Protect:   <span id="protect">false</span><br>
+            Paging:    <span id="paging">false</span><br>
+            Privilege: <span id="cpl">false</span><br>
+            <br>
+            <b>Registers</b><br>
+            <font color="#FFFF00">eip: <span id="eip">-</span></font> <br>
+            efl: <span id="eflags">-</span> <br>
+            <br>
+            eax: <span id="eax">-</span> <br>
+            ebx: <span id="ebx">-</span> <br>
+            ecx: <span id="ecx">-</span> <br>
+            edx: <span id="edx">-</span> <br>
+            esi: <span id="esi">-</span> <br>
+            edi: <span id="edi">-</span> <br>
+            ebp: <span id="ebp">-</span> <br>
+            esp: <span id="esp">-</span> <br>
+            <br>
+        </div>
+        <b>VGA</b><br>
+        Mode: <span id="info_vga_mode"></span><br>
+        <!-- Keyboard: <span id="info_keyboard_enabled">-</span><br> -->
+    </div>
 </div>
 
 <br style="clear:both">
@@ -64,6 +71,6 @@
 &mdash;
 <a href="https://github.com/copy/v86">Virtual x86 on Github</a>
 &mdash;
-<a href="">About</a>
+<a href="#">About</a>
 
 

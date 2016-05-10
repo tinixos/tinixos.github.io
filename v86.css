@@ -1,27 +1,35 @@
-#log, #runtime_infos, #serial, #filesystem_panel {
+#main {
+    margin: 0 auto;
+    width: 900px;
+    padding-bottom: 7px;
+}
+
+#process { 
+    position:absolute; 
+    background-color:#444; 
+    width: 300px; 
+    height: 99px; 
+    line-height: 33px; 
     font-family: DejaVu Sans Mono, monospace;
     font-size: 13px;
-    border: 1px solid #333;
-    background-color: #000;
-    padding: 4px;
-    color: #fff;
+    left: 40%; 
+    top: 40%; 
+    color:#fff; 
+    z-index: 180; 
+    border: 1px solid #888;
+    border-width: 2px 1px;
+    text-align:center; 
 }
-#runtime_infos, #filesystem_panel {
+
+#runtime_infos {
+    text-align: left;
+    font-family: DejaVu Sans Mono, monospace;
+    font-size: 13px;
+    padding: 4px;
     float: left;
-    width: 250px;
     margin-bottom: 7px;
     margin-right: 7px;
     padding-bottom: 7px;
-}
-#log {
-    height: 100px;
-    width: 550px;
-}
-#serial {
-    margin: 0px;
-}
-#serial:focus {
-    outline: 1px solid rgb(229, 151, 0);
 }
 #screen {
     white-space: pre;
@@ -49,6 +57,7 @@
     background-color: #000;
 }
 body {
+    text-align: center;
     background-color: #111;
     color: #fff;
     line-height: 1.5;
