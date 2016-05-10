@@ -69,7 +69,7 @@ function show_progress(e)
 
     $("process").style.display = "block";
     
-    $("image_name").textContent = (e.th+1).toString() + "/" + (e.sh+1).toString() + "  " + e.uh;
+    $("image_name").textContent = (e.th+1).toString() + "/" + (e.sh).toString() + "  " + e.uh;
     $("image_size").textContent = (e.loaded).toString() + " / " + (e.total).toString();
     $("load_process").textContent = per100.toString() + "% ";
 

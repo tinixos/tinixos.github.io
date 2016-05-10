@@ -32,6 +32,7 @@
     padding-bottom: 7px;
 }
 #screen {
+    text-align: left;
     white-space: pre;
     position: relative;
     font-family: Liberation Mono, DejaVu Sans Mono, Courier New, monospace;
