@@ -14,6 +14,32 @@ var
 
 window.onload = function()
 {
+    //<option value="123">CD / Hard Disk / Floppy</option>
+    var query_args = get_query_arguments();
+    var img = query_args["img"];
+    var iso = query_args["iso"];
+    var dsk = query_args["dsk"];
+    //var bo;
+
+    if(query_args["dsk"]) {
+        dsk = query_args["dsk"];
+    }
+
+    if(query_args["iso"]) {
+        iso = query_args["iso"];
+    }
+
+    if(query_args["img"]) {
+        img = query_args["img"];
+    }
+
+    if (typeof(img) == "undefined" && typeof(iso) == "undefined" && typeof(dsk) == "undefined") 
+    {
+        img = "images/tinix.img";
+    }
+
+    set_title($("image_path").value);
+
     emulator = new V86Starter({
 
         memory_size: 64 * 1024 * 1024,
@@ -25,8 +51,16 @@ window.onload = function()
             url: "bios/vgabios.bin",
         },
         fda: {
-            url: "images/tinix.img",
+            url: img,
         },
+        hda: {
+            url: dsk,
+        },
+        cdrom: {
+            url: iso,
+        },
+
+        //"boot_order": parseInt(bo, 16) || 0,
 
         screen_container: $("screen_container"),
         autostart: true,
@@ -41,6 +75,41 @@ window.onload = function()
     {
         show_progress(e);
     });
+}
+
+/**
+ * @return {Object.<string, string>}
+ */
+function get_query_arguments()
+{
+    var query = location.search.substr(1).split("&");
+    var parameters = {};
+
+    for(var i = 0; i < query.length; i++)
+    {
+        var param = query[i].split("=");
+        parameters[param[0]] = decodeURIComponent(param[1]);
+    }
+
+    return parameters;
+}
+
+function onpopstate(e)
+{
+    location.reload();
+}
+
+function set_title(text)
+{
+    document.title = text + " - Virtual x86";
+}
+
+function set_profile(prof)
+{
+    if(window.history.pushState)
+    {
+        window.history.pushState({ profile: prof }, "", "?" + prof);
+    }
 }
 
 function time2str(time)
@@ -75,7 +144,7 @@ function show_progress(e)
 
     if(e.th === e.sh - 1 && e.loaded >= e.total - 2048)
     {
-        $("process").style.display = "none";
+        //$("process").style.display = "none";
         return;
     }
 
@@ -333,6 +402,29 @@ function init_ui(emulator)
             //document.getElementsByClassName("phone_keyboard")[0].focus();
         }
     };
+
+    $("image_path").onchange = function()
+    {
+        var img = $("image_path").value;
+
+        if (img.indexOf(".img") > 0)
+        {
+            set_profile("img=" + img);
+        }
+        else if (img.indexOf(".iso") > 0) 
+        {
+            set_profile("iso=" + img);
+        }
+        else if (img.indexOf(".dsk") > 0) 
+        {
+            set_profile("dsk=" + img);
+        }
+
+
+        emulator.stop();
+        location.reload();
+        //location.href = location.pathname;
+    };
 }
 
 
@@ -342,7 +434,7 @@ function $(id)
 
     if(!el)
     {
-        dbg_log("Element with id `" + id + "` not found");
+        console.log("Element with id `" + id + "` not found");
     }
 
     return el;
