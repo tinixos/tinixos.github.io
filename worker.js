@@ -144,7 +144,7 @@ function show_progress(e)
 
     if(e.th === e.sh - 1 && e.loaded >= e.total - 2048)
     {
-        //$("process").style.display = "none";
+        $("process").style.display = "none";
         return;
     }
 
