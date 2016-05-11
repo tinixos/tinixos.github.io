@@ -15,35 +15,34 @@ var
 window.onload = function()
 {
     //<option value="123">CD / Hard Disk / Floppy</option>
+    var img,dsk,iso;
     var query_args = get_query_arguments();
-    var img = query_args["img"];
-    var iso = query_args["iso"];
-    var dsk = query_args["dsk"];
-    //var bo;
-
-    if(query_args["dsk"]) {
-        dsk = query_args["dsk"];
-    }
-
-    if(query_args["iso"]) {
-        iso = query_args["iso"];
-    }
-
-    if(query_args["img"]) {
-        img = query_args["img"];
-    }
-
-    if (typeof(img) == "undefined" && typeof(iso) == "undefined" && typeof(dsk) == "undefined") 
-    {
+    var image = query_args["image"];
+    var boot = query_args["boot"];
+    var memory = query_args["memory"];
+    var autostart = query_args["autostart"];
+    
+    if (typeof(image) == "undefined") {
         img = "images/tinix.img";
+    } else if (image.indexOf(".img") > 0) {
+        img = image;
+    } else if (image.indexOf(".iso") > 0) {
+        iso = image;
+    } else if (image.indexOf(".dsk") > 0) {
+        dsk = image;
+    }
+
+    if (autostart=="false") {
+        $("img_run").src = "res/play.png";
     }
 
     set_title($("image_path").value);
 
     emulator = new V86Starter({
 
-        memory_size: 64 * 1024 * 1024,
+        memory_size: (parseInt(memory, 10) || 80) * 1024 * 1024,
         vga_memory_size: 2 * 1024 * 1024,
+
         bios: {
             url: "bios/seabios.bin",
         },
@@ -60,10 +59,10 @@ window.onload = function()
             url: iso,
         },
 
-        //"boot_order": parseInt(bo, 16) || 0,
+        boot_order: parseInt(boot, 16) || 0,
 
         screen_container: $("screen_container"),
-        autostart: true,
+        autostart: !(autostart == "false"),
     });
 
     emulator.add_listener("emulator-ready", function()
@@ -137,6 +136,7 @@ function show_progress(e)
     var per100 = Math.floor(e.loaded / e.total * 100);
 
     $("process").style.display = "block";
+    $("process_layer").style.display = "block";
     
     $("image_name").textContent = (e.th+1).toString() + "/" + (e.sh).toString() + "  " + e.uh;
     $("image_size").textContent = (e.loaded).toString() + " / " + (e.total).toString();
@@ -145,9 +145,9 @@ function show_progress(e)
     if(e.th === e.sh - 1 && e.loaded >= e.total - 2048)
     {
         $("process").style.display = "none";
+        $("process_layer").style.display = "none";
         return;
     }
-
 }
 
 function init_ui(emulator)
@@ -332,11 +332,20 @@ function init_ui(emulator)
         if(is_graphical)
         {
             $("info_vga_mode").textContent = "Graphical";
+            $("vga_graph").style.display = "block";
         }
         else
         {
             $("info_vga_mode").textContent = "Text";
+            $("info_res").textContent = "-";
+            $("info_bpp").textContent = "-";
+            $("vga_graph").style.display = "none";
         }
+    });
+    emulator.add_listener("screen-set-size-graphical", function(args)
+    {
+        $("info_res").textContent = args[0] + "x" + args[1];
+        $("info_bpp").textContent = args[2];
     });
 
 
@@ -344,12 +353,12 @@ function init_ui(emulator)
     {
         if(emulator.is_running())
         {
-            $("run").value = "Resume";
+            $("img_run").src = "res/play.png";
             emulator.stop();
         }
         else
         {
-            $("run").value = "Pause";
+            $("img_run").src = "res/pause.png";
             emulator.run();
         }
 
@@ -363,35 +372,42 @@ function init_ui(emulator)
         $("reset").blur();
     };
 
-    $("ctrlaltdel").onclick = function()
+    var setting = false;
+    $("setting").onclick = function()
     {
-        emulator.keyboard_send_scancodes([
-            0x1D, // ctrl
-            0x38, // alt
-            0x53, // delete
-
-            // break codes
-            0x1D | 0x80,
-            0x38 | 0x80,
-            0x53 | 0x80,
-        ]);
-
-        $("ctrlaltdel").blur();
-    };
-
-    var showstatus = "none";
-    $("showstatus").onclick = function()
-    {
-        if (showstatus == "none") 
+        if (setting == false) 
         {
-            showstatus = "block";
-            $("runtime_infos").style.display = "block";
+            emulator.stop();
+            $("img_run").src = "res/play.png";
+            $("setting-dialog").style.display = "block";
+            $("process_layer").style.display = "block";
+            setting = true;
         }
         else
         {
-            showstatus = "none";
-            $("runtime_infos").style.display = "none";
+            emulator.run();
+            $("img_run").src = "res/pause.png";
+            $("setting-dialog").style.display = "none";
+            $("process_layer").style.display = "none";
+            setting = false;
         }
+
+        $("setting").blur();
+    };
+
+    var keyboard = false;
+    $("keyboard").onclick = function()
+    {
+        if (keyboard == false) 
+        {
+            keyboard = true;
+        }
+        else
+        {
+            keyboard = false;
+        }
+
+        $("keyboard").blur();
     };
 
     $("screen_container").onclick = function()
@@ -403,27 +419,42 @@ function init_ui(emulator)
         }
     };
 
-    $("image_path").onchange = function()
+    $("setting-cancel").onclick = function()
     {
-        var img = $("image_path").value;
+        emulator.run();
+        $("img_run").src = "res/pause.png";
+        $("setting-dialog").style.display = "none";
+        $("process_layer").style.display = "none";
+        setting = false;
+    };
 
-        if (img.indexOf(".img") > 0)
-        {
-            set_profile("img=" + img);
-        }
-        else if (img.indexOf(".iso") > 0) 
-        {
-            set_profile("iso=" + img);
-        }
-        else if (img.indexOf(".dsk") > 0) 
-        {
-            set_profile("dsk=" + img);
-        }
-
+    $("setting-apply").onclick = function()
+    {
+        var args;
 
         emulator.stop();
+        args = "image=" + $("image_path").value + "&boot=" + $("boot_order").value + "&memory=" + $("memory_size").value;
+        set_profile(args);
         location.reload();
-        //location.href = location.pathname;
+    };
+
+    $("exit").onclick = function()
+    {
+        emulator.stop();
+        set_profile("autostart=false");
+        location.reload();
+        //location.href = location.pathname + "?autostart=false";
+    };
+
+    var mouse_is_enabled = true;
+
+    $("mouse").onclick = function()
+    {
+        mouse_is_enabled = !mouse_is_enabled;
+
+        emulator.mouse_set_status(mouse_is_enabled);
+        //$("toggle_mouse").value = (mouse_is_enabled ? "Dis" : "En") + "able mouse";
+        $("toggle_mouse").blur();
     };
 }
 

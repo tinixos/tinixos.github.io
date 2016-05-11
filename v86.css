@@ -1,24 +1,54 @@
 #main {
     margin: 0 auto;
-    width: 900px;
+    width: 980px;
     padding-bottom: 7px;
 }
 
-#process { 
+#process_layer{
+    position: absolute;  
+    top: 0%;  
+    left: 0%;  
+    width: 100%;  
+    height: 100%;  
+    background-color: black;  
+    z-index:179;  
+    -moz-opacity: 0.8;  
+    opacity:.80;  
+    filter: alpha(opacity=80);
+}
+#process, #setting-dialog { 
     position:absolute; 
     background-color:#444; 
-    width: 300px; 
-    height: 99px; 
-    line-height: 33px; 
+    line-height: 40px; 
     font-family: DejaVu Sans Mono, monospace;
     font-size: 13px;
-    left: 40%; 
-    top: 40%; 
     color:#fff; 
     z-index: 180; 
     border: 1px solid #888;
     border-width: 2px 1px;
-    text-align:center; 
+}
+#process {
+    width: 320px; 
+    height: 130px; 
+    left: 50%; 
+    top: 40%; 
+    margin:-65px 0 0 -160px;
+    padding-left: 16px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    text-align:left; 
+}
+#setting-dialog {
+    width: 320px; 
+    height: 180px; 
+    left: 50%; 
+    top: 40%; 
+    margin:-90px 0 0 -160px;
+    padding: 8px;
+    padding-left: 16px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    text-align:left; 
 }
 
 #runtime_infos {
@@ -30,6 +60,11 @@
     margin-bottom: 7px;
     margin-right: 7px;
     padding-bottom: 7px;
+}
+#screen_container {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 #screen {
     text-align: left;
@@ -68,37 +103,8 @@ body {
 a {
     color: wheat;
 }
-.phone_keyboard {
-    width: 0;
-    height: 0;
-    resize: none;
-    border: 0;
-    padding: 0;
-}
 h4 {
     margin: 0px 0px 20px 0px;
 }
-#start_emulation {
-    padding: 6px 18px;
-    font-size: 16px;
-    font-weight: bold;
-}
-#setup_error {
-    color: red;
-    font-weight: bold;
-    background-color: #222;
-    padding: 8px 18px;
-}
-#config_link {
-    font-weight: bold;
-    background-color: #222;
-    padding: 8px 18px;
-}
-#screen_container {
-    float: left;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-a img {
-    margin: 10px;
+
 

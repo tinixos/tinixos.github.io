@@ -9,37 +9,78 @@
 
 <link rel="stylesheet" href="v86.css">
 
-
 <body> 
 <div id="runtime_options">
-    <select name="image" size="1" id="image_path">
-        <option value="images/tinix.img">Tinix OS</option>
-        <option value="images/windows101.img">Windows 1.01</option>
-        <option value="images/linux.iso">Linux</option>
-        <option value="images/linux3.iso">Linux 3</option>
-        <option value="images/freedos722.img">Freedos 7.22</option>
-        <option value="images/kolibri.img">Kolibri</option>
-        <option value="images/openbsd.img">OpenBSD</option>
-        <option value="images/os8.dsk">OS8</option>
-    </select>
-    <input type="button" value="Pause" id="run">
-    <input type="button" value="Reset" id="reset">
-    <input type="button" value="Ctrl-Alt-Del" id="ctrlaltdel">
-    <input type="button" value="Runtime Info" id="showstatus">
+    <button type="button" id="run"><img id="img_run" src="res/pause.png" width="50" height="50" alt="Run"></button>
+    <button type="button" id="reset"><img src="res/reset.png" width="50" height="50" alt="reset"></button>
+    <button type="button" id="exit"><img src="res/exit.png" width="50" height="50" alt="exit"></button>
+    <button type="button" id="mouse"><img src="res/mouse.png" width="50" height="50" alt="mouse"></button>
+    <button type="button" id="keyboard"><img src="res/keyboard.png" width="50" height="50" alt="keyboard"></button>
+    <button type="button" id="setting"><img src="res/setting.png" width="50" height="50" alt="setting"></button>
 </div>
 
 <hr>
+
+<div id="process_layer" style="display: block;"></div>
 <div id="process" name="process" style="display:none" align="center">
-    Loading:  <span id="image_name">-</span> <br>
-    Size(bytes):  <span id="image_size">-</span><br>
-    Process:  <span id="load_process">-</span>
+    <table>
+        <tr><td>Loading:</td><td><span id="image_name">-</span></td></tr>
+        <tr><td>Size(bytes):</td><td><span id="image_size">-</span></td></tr>
+        <tr><td>Process:</td><td><span id="load_process">-</span></td></tr>
+    </table>
 </div>
+<div id="setting-dialog" name="setting-dialog" style="display:none">
+    <table>
+        <tr>
+            <td>Symtem Image</td>
+            <td>
+                <select name="image" size="1" id="image_path">
+                    <option value="images/tinix.img">Tinix OS tinix.img</option>
+                    <option value="images/windows101.img">Windows 1.01</option>
+                    <option value="images/linux.iso">Linux</option>
+                    <option value="images/tinix3.iso">Linux 3</option>
+                    <option value="images/freedos722.img">Freedos 7.22</option>
+                    <option value="images/kolibri.img">Kolibri</option>
+                    <option value="images/openbsd.img">OpenBSD</option>
+                    <option value="images/os8.dsk">OS8</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Boot order</td>
+            <td>
+                <select id="boot_order">
+                    <option value="213">CD / Floppy / Hard Disk</option>
+                    <option value="123">CD / Hard Disk / Floppy</option>
+                    <option value="231">Floppy / CD / Hard Disk</option>
+                    <option value="321">Floppy / Hard Disk / CD</option>
+                    <option value="312">Hard Disk / Floppy / CD</option>
+                    <option value="132">Hard Disk / CD / Floppy</option>
+                </select>
+             </td>
+        </tr>
+        <tr>
+            <td>Memory size</td>
+            <td>
+                <input id="memory_size" type="number" value="64" min="16" max="2048" step="16"> MB<br>
+            </td>
+        </tr>
+    </table>
+    <div style="text-align:center; ">
+        <input type="button" value=" Cancel " id="setting-cancel"></input>
+        <input type="button" value=" Apply " id="setting-apply"></input>
+    </div>
+
+</div>
+
 
 <div id="main">
     <div id="screen_container">
         <div id="screen"></div>
         <canvas id="vga"></canvas>
     </div>
+
+
 
     <div id="runtime_infos" style="display: block;">
         <div id="info_cpu">
@@ -66,6 +107,10 @@
         </div>
         <b>VGA</b><br>
         Mode: <span id="info_vga_mode"></span><br>
+        <div id="vga_graph" style="display: none;">
+            Resolution: <span id="info_res">-</span><br>
+            BPP: <span id="info_bpp">-</span><br>
+        </div>
         <!-- Keyboard: <span id="info_keyboard_enabled">-</span><br> -->
     </div>
 </div>
@@ -82,5 +127,5 @@
 <a href="https://github.com/copy/v86">Virtual x86 on Github</a>
 &mdash;
 <a href="#">About</a>
-
+</body>
 
