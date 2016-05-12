@@ -3,8 +3,9 @@
 
 <title>Tinix OS - Virtual x86</title>
 <script type="text/javascript" src="build/libv86.js"></script>
-<script type="text/javascript" src="kbd/keyboard.js"></script>
 <script type="text/javascript" src="worker.js"></script>
+<script type="text/javascript" src="kbd/vk_loader.js?vk_layout=US%20US&vk_skin=flat_gray" ></script>
+
 
 
 <link rel="stylesheet" href="v86.css">
@@ -34,7 +35,7 @@
     <table>
         <tr><td>Loading:</td><td><span id="image_name">-</span></td></tr>
         <tr><td>Size(bytes):</td><td><span id="image_size">-</span></td></tr>
-        <tr><td>Process:</td><td><span id="load_process">-</span></td></tr>
+        <tr><td>Progress:</td><td><span id="load_process">-</span></td></tr>
     </table>
 </div>
 <div id="setting-dialog" name="setting-dialog" style="display:none">
@@ -124,8 +125,13 @@
     </div>
 </div>
 
+
 <br style="clear:both">
-<td width="50%" class="cn90" nowrap><a onclick="showkeyboard()" style={cursor:hand;}><font color="#00CC00">Use Soft Keyboard</font></a></td>
+
+<div id="kbd_panel" style="display: none">
+    <input type="text" id="keyboardinput" style="display: none" />
+    <div id="softkey"></div>
+</div>
 
 <br style="clear:both">
 <hr>

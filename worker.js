@@ -400,27 +400,53 @@ function init_ui(emulator)
         $("setting").blur();
     };
 
-    var keyboard = false;
+    var kbd = false;
     $("keyboard").onclick = function()
     {
-        if (keyboard == false) 
+        VirtualKeyboard.toggle('keyboardinput', 'softkey', function(c,s)
+            {
+                if (s == "backspace") 
+                {
+                    emulator.keyboard_send_scancodes([0x0e]);
+                }
+                else
+                {
+                    emulator.keyboard_send_text(c);
+                }
+            });
+
+        kbd = !kbd;
+        if (kbd == true) 
         {
-            keyboard = true;
+            $("kbd_panel").style.display = "block";
+            $("keyboardinput").focus();
         }
         else
         {
-            keyboard = false;
+            $("kbd_panel").style.display = "none";
+            $("keyboardinput").blur();
         }
 
         $("keyboard").blur();
+
+
+        $("kb_langselector").style.display = "none";
+        $("kb_mappingselector").style.display = "none";
+        $("copyrights").style.display = "none";
+        //$("virtualKeyboard").style.display = "margin: 0px auto;"
     };
+    $("keyboard").onclick();
 
     $("screen_container").onclick = function()
     {
         // allow text selection
-        if(window.getSelection().isCollapsed)
-        {
+        //if(window.getSelection().isCollapsed)
+        //{
             //document.getElementsByClassName("phone_keyboard")[0].focus();
+        //}
+        if (kbd == true) 
+        {
+            $("keyboardinput").focus();
         }
     };
 
@@ -459,7 +485,7 @@ function init_ui(emulator)
 
         emulator.mouse_set_status(mouse_is_enabled);
         //$("toggle_mouse").value = (mouse_is_enabled ? "Dis" : "En") + "able mouse";
-        $("toggle_mouse").blur();
+        $("mouse").blur();
     };
 
     $("takesnap").onclick = function()
