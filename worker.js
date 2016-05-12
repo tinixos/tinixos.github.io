@@ -348,17 +348,21 @@ function init_ui(emulator)
         $("info_bpp").textContent = args[2];
     });
 
+    var img_play = new Image();
+    var img_pause = new Image();
+    img_play.src = "res/play.png";
+    img_pause.src = "res/pause.png";
 
     $("run").onclick = function()
     {
         if(emulator.is_running())
         {
-            $("img_run").src = "res/play.png";
+            $("img_run").src = img_play.src;
             emulator.stop();
         }
         else
         {
-            $("img_run").src = "res/pause.png";
+            $("img_run").src = img_pause.src;
             emulator.run();
         }
 
@@ -373,12 +377,13 @@ function init_ui(emulator)
     };
 
     var setting = false;
+
     $("setting").onclick = function()
     {
         if (setting == false) 
         {
             emulator.stop();
-            $("img_run").src = "res/play.png";
+            $("img_run").src = img_play.src;
             $("setting-dialog").style.display = "block";
             $("process_layer").style.display = "block";
             setting = true;
@@ -386,7 +391,7 @@ function init_ui(emulator)
         else
         {
             emulator.run();
-            $("img_run").src = "res/pause.png";
+            $("img_run").src = img_pause.src;
             $("setting-dialog").style.display = "none";
             $("process_layer").style.display = "none";
             setting = false;
@@ -422,7 +427,7 @@ function init_ui(emulator)
     $("setting-cancel").onclick = function()
     {
         emulator.run();
-        $("img_run").src = "res/pause.png";
+        $("img_run").src = img_pause.src;
         $("setting-dialog").style.display = "none";
         $("process_layer").style.display = "none";
         setting = false;
@@ -455,6 +460,40 @@ function init_ui(emulator)
         emulator.mouse_set_status(mouse_is_enabled);
         //$("toggle_mouse").value = (mouse_is_enabled ? "Dis" : "En") + "able mouse";
         $("toggle_mouse").blur();
+    };
+
+    $("takesnap").onclick = function()
+    {
+        emulator.save_state(function(error, result)
+        {
+            if(error)
+            {
+                console.log(error.stack);
+                console.log("Couldn't save state: ", error);
+            }
+            else
+            {
+                var blob = new Blob([result]);
+
+                var a = document.createElement("a");
+                a.download = "v86stat.bin";
+                a.href = window.URL.createObjectURL(blob);
+                a.dataset["downloadurl"] = ["application/octet-stream", a.download, a.href].join(":");
+
+                if(document.createEvent)
+                {
+                    var ev = document.createEvent("MouseEvent");
+                    ev.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                    a.dispatchEvent(ev);
+                }
+                else
+                {
+                    a.click();
+                }
+            }
+        });
+
+        $("takesnap").blur();
     };
 }
 

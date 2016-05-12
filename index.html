@@ -11,12 +11,20 @@
 
 <body> 
 <div id="runtime_options">
-    <button type="button" id="run"><img id="img_run" src="res/pause.png" width="50" height="50" alt="Run"></button>
-    <button type="button" id="reset"><img src="res/reset.png" width="50" height="50" alt="reset"></button>
-    <button type="button" id="exit"><img src="res/exit.png" width="50" height="50" alt="exit"></button>
-    <button type="button" id="mouse"><img src="res/mouse.png" width="50" height="50" alt="mouse"></button>
-    <button type="button" id="keyboard"><img src="res/keyboard.png" width="50" height="50" alt="keyboard"></button>
-    <button type="button" id="setting"><img src="res/setting.png" width="50" height="50" alt="setting"></button>
+    <table style="margin: 0 auto;">
+        <tr>
+            <td><button type="button" id="run" style="border-width: 2px"><img id="img_run" src="res/pause.png" width="50" height="50" alt="Run"></button></td>
+            <td><button type="button" id="reset" style="border-width: 2px"><img src="res/reset.png" width="50" height="50" alt="reset"></button></td>
+            <td><button type="button" id="exit" style="border-width: 2px"><img src="res/exit.png" width="50" height="50" alt="exit"></button></td>
+            <td><button type="button" id="mouse" style="border-width: 2px"><img src="res/mouse.png" width="50" height="50" alt="mouse"></button></td>
+            <td><button type="button" id="keyboard" style="border-width: 2px"><img src="res/keyboard.png" width="50" height="50" alt="keyboard"></button></td>
+            <td><button type="button" id="takesnap" style="border-width: 2px"><img src="res/takesnap.png" width="50" height="50" alt="takesnap"></button></td>
+            <td><button type="button" id="setting" style="border-width: 2px"><img src="res/setting.png" width="50" height="50" alt="setting"></button></td>
+        </tr>
+        <tr>
+            <td>Pause</td><td>Reset</td><td>Exit</td><td>Mouse</td><td>Keyboard</td><td>Takesnap</td><td>Setting</td>
+        </tr>
+    </table>
 </div>
 
 <hr>
@@ -35,14 +43,15 @@
             <td>Symtem Image</td>
             <td>
                 <select name="image" size="1" id="image_path">
-                    <option value="images/tinix.img">Tinix OS tinix.img</option>
-                    <option value="images/windows101.img">Windows 1.01</option>
-                    <option value="images/linux.iso">Linux</option>
-                    <option value="images/tinix3.iso">Linux 3</option>
-                    <option value="images/freedos722.img">Freedos 7.22</option>
-                    <option value="images/kolibri.img">Kolibri</option>
-                    <option value="images/openbsd.img">OpenBSD</option>
-                    <option value="images/os8.dsk">OS8</option>
+                    <option value="images/tinix.img">Tinix OS (1.4MB)</option>
+                    <option value="images/windows101.img">Windows 1.01 (1.4MB)</option>
+                    <option value="images/linux.iso">Linux 2.6 (5.4MB)</option>
+                    <option value="images/linux3.iso">Linux 3.18 (7.4MB)</option>
+                    <option value="images/freedos722.img">Freedos 7.22 (0.7MB)</option>
+                    <option value="images/kolibri.img">KolibriOS (1.4MB)</option>
+                    <option value="images/openbsd.img">OpenBSD (1.4MB)</option>
+                    <option value="images/os8.dsk">Solar OS (1.4MB)</option>
+                    <option value="images/tccboot.iso">TCCBOOT Linux (6.2MB)</option>
                 </select>
             </td>
         </tr>
