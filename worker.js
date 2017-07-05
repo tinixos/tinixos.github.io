@@ -23,7 +23,7 @@ window.onload = function()
     var autostart = query_args["autostart"];
     
     if (typeof(image) == "undefined") {
-        img = "images/tinix.img";
+        img = "https://github.com/tinixos/tinix/raw/master/floppy.img";
     } else if (image.indexOf(".img") > 0) {
         img = image;
     } else if (image.indexOf(".iso") > 0) {
