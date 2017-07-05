@@ -400,7 +400,7 @@ function init_ui(emulator)
         $("setting").blur();
     };
 
-    var kbd = false;
+    var kbd = true;
     $("keyboard").onclick = function()
     {
         VirtualKeyboard.toggle('keyboardinput', 'softkey', function(c,s)
