@@ -400,7 +400,7 @@ function init_ui(emulator)
         $("setting").blur();
     };
 
-    var kbd = true;
+    var kbd = false;
     $("keyboard").onclick = function()
     {
         VirtualKeyboard.toggle('keyboardinput', 'softkey', function(c,s)
@@ -420,6 +420,11 @@ function init_ui(emulator)
         {
             $("kbd_panel").style.display = "block";
             $("keyboardinput").focus();
+            
+            $("kb_langselector").style.display = "none";
+            $("kb_mappingselector").style.display = "none";
+            $("copyrights").style.display = "none";
+            //$("virtualKeyboard").style.display = "margin: 0px auto;"
         }
         else
         {
@@ -428,14 +433,8 @@ function init_ui(emulator)
         }
 
         $("keyboard").blur();
-
-
-        $("kb_langselector").style.display = "none";
-        $("kb_mappingselector").style.display = "none";
-        $("copyrights").style.display = "none";
-        //$("virtualKeyboard").style.display = "margin: 0px auto;"
     };
-    $("keyboard").onclick();
+    //$("keyboard").onclick();
 
     $("screen_container").onclick = function()
     {
